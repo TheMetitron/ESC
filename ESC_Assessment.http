@@ -1,0 +1,6 @@
+@ESC_Assessment_HostAddress = http://localhost:5268
+
+GET {{ESC_Assessment_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
