@@ -1,5 +1,4 @@
-﻿using ESC_Assessment.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Text.Json;
