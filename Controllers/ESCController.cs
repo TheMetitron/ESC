@@ -16,7 +16,7 @@ namespace ESC_Assessment.Controllers
         public List<Employees> GetFullData()
         {
             List<Employees> ldm = new List<Employees>();
-            SqlConnection con = new SqlConnection("Data Source=USER-PC\\SQLEXPRESS;Integrated Security=True; Database=ESC; TRUSTSERVERCERTIFICATE=true ");
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandType = CommandType.StoredProcedure;
@@ -38,7 +38,7 @@ namespace ESC_Assessment.Controllers
         public List<Employees> GetData(int? employeeID = null, string fName = "", string lName = "", string email = "", string depName = "", string countyName = "", string regName = "")
         {
             List<Employees> ldm = new List<Employees>();
-            SqlConnection con = new SqlConnection("Data Source=USER-PC\\SQLEXPRESS;Integrated Security=True; Database=ESC; TRUSTSERVERCERTIFICATE=true ");
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandType = CommandType.StoredProcedure;
