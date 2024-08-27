@@ -2,6 +2,7 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Text.Json;
+using ESC_Assessment.Models;
 
 namespace ESC_Assessment.Controllers
 {
@@ -12,9 +13,9 @@ namespace ESC_Assessment.Controllers
     {
 
         [HttpGet("GetAllData")]
-        public string GetFullData()
+        public List<Employees> GetFullData()
         {
-            //List<Employees> ldm = new List<Employees>();
+            List<Employees> ldm = new List<Employees>();
             SqlConnection con = new SqlConnection("Data Source=USER-PC\\SQLEXPRESS;Integrated Security=True; Database=ESC; TRUSTSERVERCERTIFICATE=true ");
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
@@ -30,13 +31,13 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            //ldm = JsonSerializer.Deserialize<List<Employees>>(ret) ?? new List<Employees>();
-            return ret;
+            ldm = JsonSerializer.Deserialize<List<Employees>>(ret) ?? new List<Employees>();
+            return ldm;
         }
         [HttpGet("GetPartialData")]
-        public string GetData(int? employeeID = null, string fName = "", string lName = "", string email = "", string depName = "", string countyName = "", string regName = "")
+        public List<Employees> GetData(int? employeeID = null, string fName = "", string lName = "", string email = "", string depName = "", string countyName = "", string regName = "")
         {
-            //List<Employees> ldm = new List<Employees>();
+            List<Employees> ldm = new List<Employees>();
             SqlConnection con = new SqlConnection("Data Source=USER-PC\\SQLEXPRESS;Integrated Security=True; Database=ESC; TRUSTSERVERCERTIFICATE=true ");
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
@@ -59,11 +60,11 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            //if (ret.Length > 0)
-            //{
-            //    ldm = JsonSerializer.Deserialize<List<Employees>>(ret) ?? new List<Employees>();
-            //}
-            return ret;
+            if (ret.Length > 0)
+            {
+                ldm = JsonSerializer.Deserialize<List<Employees>>(ret) ?? new List<Employees>();
+            }
+            return ldm;
         }
     }
 }
