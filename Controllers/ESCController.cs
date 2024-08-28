@@ -362,7 +362,7 @@ namespace ESC_Assessment.Controllers
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "Select street_address as Display, location_id as ID from jobs FOR JSON PATH";
+            cmd.CommandText = "Select street_address as Display, location_id as ID from locations FOR JSON PATH";
             con.Open();
             string ret = "";
             using (SqlDataReader rdr = cmd.ExecuteReader())
