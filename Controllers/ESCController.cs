@@ -3,6 +3,7 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Text.Json;
 using ESC_Assessment.Models;
+using static ESC_Assessment.Controllers.ESCController;
 
 namespace ESC_Assessment.Controllers
 {
@@ -310,11 +311,10 @@ namespace ESC_Assessment.Controllers
             ldm = JsonSerializer.Deserialize<List<ddlClass>>(ret) ?? new List<ddlClass>();
             return ldm;
         }
-
         [HttpGet("GetCountries")]
-        public List<ddlClass> GetCountries()
+        public List<ddlClassSpecial> GetCountries()
         {
-            List<ddlClass> ldm = new List<ddlClass>();
+            List<ddlClassSpecial> ldm = new List<ddlClassSpecial>();
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
@@ -328,7 +328,7 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            ldm = JsonSerializer.Deserialize<List<ddlClass>>(ret) ?? new List<ddlClass>();
+            ldm = JsonSerializer.Deserialize<List<ddlClassSpecial>>(ret) ?? new List<ddlClassSpecial>();
             return ldm;
         }
 
