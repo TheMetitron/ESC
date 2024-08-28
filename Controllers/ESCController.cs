@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using System.Text.Json;
 using ESC_Assessment.Models;
 using static ESC_Assessment.Controllers.ESCController;
+using System.Diagnostics.Metrics;
 
 namespace ESC_Assessment.Controllers
 {
@@ -379,6 +380,310 @@ namespace ESC_Assessment.Controllers
         #endregion
 
         #region CRUD
+
+        //----------------------------------------------
+        //Creates
+        [HttpPost("CreateEmployee")]
+        public int CreateEmployee(Employee employee)
+        {
+            //Manager ID is intentionally being left out since I don't have the business rules for managers.
+            //I would add a boolean to the JOBS table to indicate if it's a managerial position
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "INSERT INTO EMPLOYEES(first_name, last_name, email, phone_number, hire_date, job_id, salary, department_id) VALUES('" + employee.FirstName + "', '" + employee.LastName + "', '" + employee.Email + "', '" + employee.PhoneNumber + "', '" + employee.HireDate + "', '" + employee.JobID + "', '" + employee.Salary + "', '" + employee.DepartmentID + "')";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPost("CreateDependent")]
+        public int CreateDependent(Dependent dependent)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "INSERT INTO DEPENDENTS(first_name, last_name, relationship, employee_id) VALUES('" + dependent.FirstName + "', '" + dependent.LastName + "', '" + dependent.Relationship + "', '" + dependent.EmployeeID + "')";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPost("CreateLocation")]
+        public int CreateLocation(Location location)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "INSERT INTO LOCATIONS(street_address, postal_code, city, state_province, country_id) VALUES('" + location.StreetAddress + "', '" + location.PostalCode + "', '" + location.City + "', '" + location.StateProvince + "', '" + location.CountryID + "')";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPost("CreateCountry")]
+        public int CreateCountry(Country country)
+        {
+            //Country will not be able to be inserted into as getting a full list of country abreviations for ID is beyond the scope I think.  
+            //I would change the table to have a proper ID column and change the current id to abreviation
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "INSERT INTO COUNTRIES(country_id, country_name, region_id) VALUES('" + country.Name + "', '" + country.RegionID + "')";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPost("CreateRegion")]
+        public int CreateRegion(Region region)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "INSERT INTO REGIONS(region_name) VALUES('" + region.Name + "')";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPost("CreateDepartment")]
+        public int CreateDepartment(Department department)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "INSERT INTO DEPARTMENTS(department_name, location_id) VALUES('" + department.Name + "', '" + department.LocationID + "')";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPost("CreateJob")]
+        public int CreateJob(Job job)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "INSERT INTO JOBS(job_title, min_salary, max_salary) VALUES('" + job.Title + "', '" + job.MinSalary + "', '" + job.MaxSalary + "')";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+
+        //--------------------------------------------
+        //Updates
+        [HttpPut("UpdateEmployee")]
+        public int UpdateEmployee(Employee employee)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = @"UPDATE EMPLOYEES
+                                SET
+	                                first_name = '" + employee.FirstName + "', " + 
+	                                "last_name = '" + employee.LastName + "', " +
+                                    "email = '" + employee.Email + "', " + 
+	                                "phone_number = '" + employee.PhoneNumber + "', " +
+                                    "hire_date = '" + employee.HireDate + "', " +
+                                    "job_id = '" + employee.JobID + "', " +
+                                    "salary = '" + employee.Salary + "', " +
+                                    "department_id = '" + employee.DepartmentID + "', " +
+                                "WHERE employee_id = '" + employee.ID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPut("UpdateDependent")]
+        public int UpdateDependent(Dependent dependent)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = @"UPDATE DEPENDENTS
+                                SET
+	                                first_name = '" + dependent.FirstName + "', " +
+                                    "last_name = '" + dependent.LastName + "', " +
+                                    "relationship = '" + dependent.Relationship + "', " +
+                                    "employee_id = '" + dependent.EmployeeID + "', " +
+                                "WHERE dependent_id = '" + dependent.ID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPut("UpdateLocation")]
+        public int UpdateLocation(Location location)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = @"UPDATE LOCATIONS
+                                SET
+	                                street_address = '" + location.StreetAddress + "', " +
+                                    "postal_code = '" + location.PostalCode + "', " +
+                                    "city = '" + location.City + "', " +
+                                    "state_province = '" + location.StateProvince + "', " +
+                                    "country_id = '" + location.CountryID + "', " +
+                                "WHERE location_id = '" + location.ID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPut("UpdateCountry")]
+        public int UpdateCountry(Country country)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = @"UPDATE COUNTRIES
+                                SET
+	                                country_name = '" + country.Name + "', " +
+                                    "region_id = '" + country.RegionID + "', " +
+                                "WHERE country_id = '" + country.ID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPut("UpdateRegion")]
+        public int UpdateRegion(Region region)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = @"UPDATE REGIONS
+                                SET
+	                                region_name = '" + region.Name + "', " +
+                                "WHERE region_id = '" + region.ID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPut("UpdateDepartment")]
+        public int UpdateDepartment(Department department)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = @"UPDATE COUNTRIES
+                                SET
+	                                department_name = '" + department.Name + "', " +
+                                    "location_id = '" + department.LocationID + "', " +
+                                "WHERE department_id = '" + department.ID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpPut("UpdateJob")]
+        public int UpdateJob(Job job)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = @"UPDATE JOBS
+                                SET
+	                                job_title = '" + job.Title + "', " +
+                                    "min_salary = '" + job.MinSalary + "', " +
+                                    "max_salary = '" + job.MaxSalary + "', " +
+                                "WHERE job_id = '" + job.ID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+
+        //--------------------------------------------
+        //Deletes
+        [HttpDelete("DeleteEmployee")]
+        public int DeleteEmployee(int employeeID)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "DELETE FROM EMPLOYEES where employee_id = '" + employeeID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpDelete("DeleteDependent")]
+        public int DeleteDependent(int dependenID)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "DELETE FROM DEPENDENTS where dependent_id = '" + dependenID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpDelete("DeleteLocation")]
+        public int DeleteLocation(int locationID)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "UPDATE DEPARTMENTS SET location_id = '' WHERE location_ID = '" + locationID + "' DELETE FROM LOCATIONS where location_id = '" + locationID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpDelete("DeleteCountry")]
+        public int DeleteCountry(int countryID)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "DELETE FROM COUNTRIES where country_id = '" + countryID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpDelete("DeleteRegion")]
+        public int DeleteRegion(int regionID)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "UPDATE COUNTRIES SET region_id = '' WHERE refion_id = '" + regionID + "' DELETE FROM REGIONS where region_id = '" + regionID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpDelete("DeleteDepartment")]
+        public int DeleteDepartment(int departmentID)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = " DELETE FROM DEPARTMENTS where department_id = '" + departmentID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
+        [HttpDelete("DeleteJob")]
+        public int DeleteJob(int jobID)
+        {
+            int ret = -1;
+            SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = " DELETE FROM JOBS where job_id = '" + jobID + "'";
+            con.Open();
+            ret = cmd.ExecuteNonQuery();
+            return ret;
+        }
 
         #endregion
     }
