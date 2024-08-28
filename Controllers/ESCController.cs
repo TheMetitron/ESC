@@ -86,7 +86,8 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            ldm = JsonSerializer.Deserialize<List<Employee>>(ret) ?? new List<Employee>();
+            if (ret.Length > 0)
+                ldm = JsonSerializer.Deserialize<List<Employee>>(ret) ?? new List<Employee>();
             return ldm;
         }
 
@@ -107,7 +108,8 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            ldm = JsonSerializer.Deserialize<List<Dependent>>(ret) ?? new List<Dependent>();
+            if (ret.Length > 0)
+                ldm = JsonSerializer.Deserialize<List<Dependent>>(ret) ?? new List<Dependent>();
             return ldm;
         }
 
@@ -128,11 +130,12 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            ldm = JsonSerializer.Deserialize<List<Department>>(ret) ?? new List<Department>();
+            if (ret.Length > 0)
+                ldm = JsonSerializer.Deserialize<List<Department>>(ret) ?? new List<Department>();
             return ldm;
         }
 
-        [HttpGet("GetJobs")]
+        [HttpGet("GetJob")]
         public List<Job> GetJobs(int jobID)
         {
             List<Job> ldm = new List<Job>();
@@ -149,7 +152,8 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            ldm = JsonSerializer.Deserialize<List<Job>>(ret) ?? new List<Job>();
+            if (ret.Length > 0)
+                ldm = JsonSerializer.Deserialize<List<Job>>(ret) ?? new List<Job>();
             return ldm;
         }
 
@@ -170,12 +174,13 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            ldm = JsonSerializer.Deserialize<List<Location>>(ret) ?? new List<Location>();
+            if(ret.Length > 0)
+                ldm = JsonSerializer.Deserialize<List<Location>>(ret) ?? new List<Location>();
             return ldm;
         }
 
         [HttpGet("GetCountry")]
-        public List<Country> GetCountry(int countryID)
+        public List<Country> GetCountry(string countryID)
         {
             List<Country> ldm = new List<Country>();
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -191,7 +196,8 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            ldm = JsonSerializer.Deserialize<List<Country>>(ret) ?? new List<Country>();
+            if (ret.Length > 0)
+                ldm = JsonSerializer.Deserialize<List<Country>>(ret) ?? new List<Country>();
             return ldm;
         }
 
@@ -212,7 +218,8 @@ namespace ESC_Assessment.Controllers
                     ret += rdr[0].ToString();
                 }
             }
-            ldm = JsonSerializer.Deserialize<List<Region>>(ret) ?? new List<Region>();
+            if (ret.Length > 0)
+                ldm = JsonSerializer.Deserialize<List<Region>>(ret) ?? new List<Region>();
             return ldm;
         }
 
