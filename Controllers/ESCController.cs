@@ -384,7 +384,7 @@ namespace ESC_Assessment.Controllers
         //----------------------------------------------
         //Creates
         [HttpPost("CreateEmployee")]
-        public int CreateEmployee(Employee employee)
+        public int CreateEmployee([FromBody]Employee employee)
         {
             //Manager ID is intentionally being left out since I don't have the business rules for managers.
             //I would add a boolean to the JOBS table to indicate if it's a managerial position
@@ -398,7 +398,7 @@ namespace ESC_Assessment.Controllers
             return ret;
         }
         [HttpPost("CreateDependent")]
-        public int CreateDependent(Dependent dependent)
+        public int CreateDependent([FromBody]Dependent dependent)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -410,7 +410,7 @@ namespace ESC_Assessment.Controllers
             return ret;
         }
         [HttpPost("CreateLocation")]
-        public int CreateLocation(Location location)
+        public int CreateLocation([FromBody]Location location)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -422,7 +422,7 @@ namespace ESC_Assessment.Controllers
             return ret;
         }
         [HttpPost("CreateCountry")]
-        public int CreateCountry(Country country)
+        public int CreateCountry([FromBody]Country country)
         {
             //Country will not be able to be inserted into as getting a full list of country abreviations for ID is beyond the scope I think.  
             //I would change the table to have a proper ID column and change the current id to abreviation
@@ -436,7 +436,7 @@ namespace ESC_Assessment.Controllers
             return ret;
         }
         [HttpPost("CreateRegion")]
-        public int CreateRegion(Region region)
+        public int CreateRegion([FromBody]Region region)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -448,7 +448,7 @@ namespace ESC_Assessment.Controllers
             return ret;
         }
         [HttpPost("CreateDepartment")]
-        public int CreateDepartment(Department department)
+        public int CreateDepartment([FromBody]Department department)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -460,7 +460,7 @@ namespace ESC_Assessment.Controllers
             return ret;
         }
         [HttpPost("CreateJob")]
-        public int CreateJob(Job job)
+        public int CreateJob([FromBody]Job job)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -474,8 +474,8 @@ namespace ESC_Assessment.Controllers
 
         //--------------------------------------------
         //Updates
-        [HttpPut("UpdateEmployee")]
-        public int UpdateEmployee(Employee employee)
+        [HttpPost("UpdateEmployee")]
+        public int UpdateEmployee([FromBody]Employee employee)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -490,14 +490,14 @@ namespace ESC_Assessment.Controllers
                                     "hire_date = '" + employee.HireDate + "', " +
                                     "job_id = '" + employee.JobID + "', " +
                                     "salary = '" + employee.Salary + "', " +
-                                    "department_id = '" + employee.DepartmentID + "', " +
+                                    "department_id = '" + employee.DepartmentID + "' " +
                                 "WHERE employee_id = '" + employee.ID + "'";
             con.Open();
             ret = cmd.ExecuteNonQuery();
             return ret;
         }
-        [HttpPut("UpdateDependent")]
-        public int UpdateDependent(Dependent dependent)
+        [HttpPost("UpdateDependent")]
+        public int UpdateDependent([FromBody]Dependent dependent)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -508,14 +508,14 @@ namespace ESC_Assessment.Controllers
 	                                first_name = '" + dependent.FirstName + "', " +
                                     "last_name = '" + dependent.LastName + "', " +
                                     "relationship = '" + dependent.Relationship + "', " +
-                                    "employee_id = '" + dependent.EmployeeID + "', " +
+                                    "employee_id = '" + dependent.EmployeeID + "' " +
                                 "WHERE dependent_id = '" + dependent.ID + "'";
             con.Open();
             ret = cmd.ExecuteNonQuery();
             return ret;
         }
-        [HttpPut("UpdateLocation")]
-        public int UpdateLocation(Location location)
+        [HttpPost("UpdateLocation")]
+        public int UpdateLocation([FromBody]Location location)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -527,14 +527,14 @@ namespace ESC_Assessment.Controllers
                                     "postal_code = '" + location.PostalCode + "', " +
                                     "city = '" + location.City + "', " +
                                     "state_province = '" + location.StateProvince + "', " +
-                                    "country_id = '" + location.CountryID + "', " +
+                                    "country_id = '" + location.CountryID + "' " +
                                 "WHERE location_id = '" + location.ID + "'";
             con.Open();
             ret = cmd.ExecuteNonQuery();
             return ret;
         }
-        [HttpPut("UpdateCountry")]
-        public int UpdateCountry(Country country)
+        [HttpPost("UpdateCountry")]
+        public int UpdateCountry([FromBody]Country country)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -543,14 +543,14 @@ namespace ESC_Assessment.Controllers
             cmd.CommandText = @"UPDATE COUNTRIES
                                 SET
 	                                country_name = '" + country.Name + "', " +
-                                    "region_id = '" + country.RegionID + "', " +
+                                    "region_id = '" + country.RegionID + "' " +
                                 "WHERE country_id = '" + country.ID + "'";
             con.Open();
             ret = cmd.ExecuteNonQuery();
             return ret;
         }
-        [HttpPut("UpdateRegion")]
-        public int UpdateRegion(Region region)
+        [HttpPost("UpdateRegion")]
+        public int UpdateRegion([FromBody]Region region)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -558,30 +558,30 @@ namespace ESC_Assessment.Controllers
             cmd.Connection = con;
             cmd.CommandText = @"UPDATE REGIONS
                                 SET
-	                                region_name = '" + region.Name + "', " +
+	                                region_name = '" + region.Name + "' " +
                                 "WHERE region_id = '" + region.ID + "'";
             con.Open();
             ret = cmd.ExecuteNonQuery();
             return ret;
         }
-        [HttpPut("UpdateDepartment")]
-        public int UpdateDepartment(Department department)
+        [HttpPost("UpdateDepartment")]
+        public int UpdateDepartment([FromBody]Department department)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = @"UPDATE COUNTRIES
+            cmd.CommandText = @"UPDATE DEPARTMENTS
                                 SET
 	                                department_name = '" + department.Name + "', " +
-                                    "location_id = '" + department.LocationID + "', " +
+                                    "location_id = '" + department.LocationID + "' " +
                                 "WHERE department_id = '" + department.ID + "'";
             con.Open();
             ret = cmd.ExecuteNonQuery();
             return ret;
         }
-        [HttpPut("UpdateJob")]
-        public int UpdateJob(Job job)
+        [HttpPost("UpdateJob")]
+        public int UpdateJob([FromBody]Job job)
         {
             int ret = -1;
             SqlConnection con = new SqlConnection("Server=tcp:mcroninpersonal.database.windows.net,1433;Initial Catalog=ESC;Persist Security Info=False;User ID=mcroninSQL;Password=TestingDB1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -591,7 +591,7 @@ namespace ESC_Assessment.Controllers
                                 SET
 	                                job_title = '" + job.Title + "', " +
                                     "min_salary = '" + job.MinSalary + "', " +
-                                    "max_salary = '" + job.MaxSalary + "', " +
+                                    "max_salary = '" + job.MaxSalary + "' " +
                                 "WHERE job_id = '" + job.ID + "'";
             con.Open();
             ret = cmd.ExecuteNonQuery();
