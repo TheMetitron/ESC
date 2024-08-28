@@ -9,6 +9,7 @@
         public string PhoneNumber { get; set; } = "";
         public DateTime HireDate { get; set; }
         public int JobID { get; set; }
+        public decimal Salary { get; set; }
         public int DepartmentID { get; set; }
         public int ManagerID { get; set; }
       
